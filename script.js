@@ -164,8 +164,10 @@ window.onload = function () {
 
 //charts
 function renderChart() {
+  const convertedSalary = convert(salary);
   const totalExpenses = convert(getTotalExpenses());
   const balance = convert(getBalance());
+
   
   const canvas = document.getElementById("myChart");
   if (!canvas) return;
@@ -177,10 +179,11 @@ function renderChart() {
   chart = new Chart(ctx, {
     type: "pie",
     data: {
-      labels: ["Expenses", "Remaining Balance"],
+      labels: ["Salary","Expenses", "Remaining Balance"],
       datasets: [
         {
-          data: [totalExpenses, balance],
+          data: [convertedSalary , totalExpenses, balance],
+          backgroundColor: ["#4CAF50", "#f44336", "#2196F3"],
         },
       ],
     },
@@ -188,9 +191,9 @@ function renderChart() {
       responsive: true,
       maintainAspectRatio: false,
       interaction:{
-        mode : 'nearest',
-        intersect: true,
-        axis:'xy'
+        mode : 'index',
+        intersect: false,
+        //axis : 'xy'
       },
       plugins: {
         legend: { position: "top" },
