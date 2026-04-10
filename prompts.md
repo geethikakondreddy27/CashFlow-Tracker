@@ -13,3 +13,7 @@
 6. My jsPDF report is working, but it looks a bit messy. The text is all the same size and everything is stuck to the very edge of the page. Can you help me style the PDF so it has a centered title, a bold header for the different sections, and some lines to separate the summary from the list of expenses? Also, I need to make sure the text is indented so it doesn't look like it's falling off the page.
 
 7. Hey, I’ve got a CSS issue. My main buttons are set to width: 100% so they look good in the input cards, but that same rule is making the small Delete buttons in my expense list stretch across the whole screen. How do I target just the delete buttons to make them small and push them to the right side of the list item without using !important? 
+
+8. My Chart.js visualizations aren't reflecting the currency change correctly. The bars update, but the Y-axis and the tooltips still show the old labels. How can I use the convert() helper function within my chart data, and how do I use ticks.callback and tooltip.callbacks in my chart configuration to ensure the currency symbol and values match my currentCurrency variable every time the chart is re-rendered? 
+
+

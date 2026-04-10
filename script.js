@@ -17,7 +17,7 @@ function SetSalary() {
 
     salary = val;
     saveToLocalStorage();
-    inputField.value = ""; // Only clear if valid
+    inputField.value = ""; // Only clears if valid
     return true;
 }
 
@@ -53,7 +53,6 @@ function deleteExpense(id) {
 }
 
 //4.calculate total expenses
-
 function getTotalExpenses() {
   const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
   console.log("Total expenses:", total);
@@ -68,11 +67,10 @@ function getBalance() {
 }
 
 function handleSetSalary() {
-  //const input = document.getElementById("salaryInput").value = "";
   if(SetSalary()){
-     updateSummary();
-  renderChart();
-  renderBarChart();
+    updateSummary();
+    renderChart();
+    renderBarChart();
   }
 }
 
@@ -98,7 +96,8 @@ function renderExpenses() {
   expenses.forEach((exp) => {
     const li = document.createElement("li");
     const text = document.createElement("span");
-    text.innerText = `${exp.name} - ${currentCurrency} ${convert(exp.amount)}`;
+    // Added convert() here so list updates when currency changes
+    text.innerText = `${exp.name} - ${currentCurrency} ${convert(exp.amount)}`; 
     const btn = document.createElement("button");
     btn.innerText = "Delete";
     btn.onclick = function () {
@@ -118,17 +117,13 @@ function renderExpenses() {
 function updateSummary() {
   const total = getTotalExpenses();
   const balance = getBalance();
-  document.getElementById("salaryDisplay").innerText =
-    `${currentCurrency} ${convert(salary)}`;
-  document.getElementById("totalExpenses").innerText =
-    `${currentCurrency} ${convert(total)}`;
-  document.getElementById("balance").innerText =
-    `${currentCurrency} ${convert(balance)}`;
+  
+  document.getElementById("salaryDisplay").innerText = `${currentCurrency} ${convert(salary)}`;
+  document.getElementById("totalExpenses").innerText = `${currentCurrency} ${convert(total)}`;
+  document.getElementById("balance").innerText = `${currentCurrency} ${convert(balance)}`;
 
-  //budge alert
   if (salary > 0 && balance < salary * 0.1) {
     document.getElementById("balance").style.color = "red";
-
     if (!alertshown) {
       alert("Warning: Your balance is below 10% of your salary!");
       alertshown = true;
@@ -155,10 +150,10 @@ function loadFromLocalStorage() {
   salary = parsedData.salary || 0;
   expenses = parsedData.expenses || [];
 }
+
 window.onload = function () {
   loadFromLocalStorage();
-  document.getElementById("salaryDisplay").innerText =
-    `${currentCurrency} ${convert(salary)}`;
+  document.getElementById("salaryDisplay").innerText = `${currentCurrency} ${convert(salary)}`;
   document.getElementById("salaryInput").value = salary;
 
   renderExpenses();
@@ -169,13 +164,13 @@ window.onload = function () {
 
 //charts
 function renderChart() {
-  const totalExpenses = getTotalExpenses();
-  const balance = getBalance();
+  const totalExpenses = convert(getTotalExpenses());
+  const balance = convert(getBalance());
+  
   const canvas = document.getElementById("myChart");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
-  //destroy old chart before creating new one
   if (chart) {
     chart.destroy();
   }
@@ -193,42 +188,40 @@ function renderChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "top",
-        },
+        legend: { position: "top" },
         tooltip: {
-          enabled: true,
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          padding: 12,
-          cornerRadius: 8,
+          callbacks: {
+            label: function(context) {
+              return ` ${currentCurrency} ${context.raw}`;
+            }
+          }
         },
-      },
-      animation: {
-        duration: 2000,
-        easing: "easeOutQuart",
       },
     },
   });
-  console.log("Chart function called");
 }
-//render bar chart
+
 function renderBarChart() {
   const canvas = document.getElementById("BarChart");
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
-  const totalExpenses = getTotalExpenses();
-  const balance = getBalance();
+  
+  const totalExpenses = convert(getTotalExpenses());
+  const balance = convert(getBalance());
+  const convertedSalary = convert(salary);
+
   if (window.barChart) {
     window.barChart.destroy();
   }
+
   window.barChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: ["Salary", "Expenses", "Balance"],
       datasets: [
         {
-          label: "Comparision",
-          data: [salary, totalExpenses, balance],
+          label: "Comparison",
+          data: [convertedSalary, totalExpenses, balance],
           backgroundColor: ["#4CAF50", "#f44336", "#2196F3"],
         },
       ],
@@ -237,42 +230,42 @@ function renderBarChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "top",
-        },
+        legend: { position: "top" },
         tooltip: {
-          enabled: true, 
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          padding: 12,
-          cornerRadius: 8,
+          callbacks: {
+            label: function(context) {
+              return `${context.dataset.label}: ${currentCurrency} ${context.parsed.y}`;
+            }
+          }
         },
       },
-      animation: {
-        duration: 2000,
-        easing: "easeOutQuart",
-      },
+      scales: {
+        y: {
+          ticks: {
+            callback: function(value) {
+              return currentCurrency + " " + value;
+            }
+          }
+        }
+      }
     },
   });
-  console.log("Chart function called");
 }
-
-
 
 //download PDF
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  let y = 20; // Start a bit lower from the top
- //Header
+  let y = 20;
+
   doc.setFontSize(22);
   doc.setTextColor(67, 97, 238); 
   doc.text("CASH FLOW REPORT", 105, y, { align: "center" });
   
   y += 10;
   doc.setLineWidth(0.5);
-  doc.line(20, y, 190, y); // Horizontal line
+  doc.line(20, y, 190, y);
   
-  // 2. Summary Section in pdf view
   y += 15;
   doc.setFontSize(14);
   doc.setTextColor(0, 0, 0);
@@ -287,7 +280,6 @@ function downloadPDF() {
   y += 8;
   doc.text(`Final Balance: ${currentCurrency} ${convert(getBalance())}`, 25, y);
 
-  // 3. Transactions Table
   y += 15;
   doc.setFont("helvetica", "bold");
   doc.text("Recent Transactions", 20, y);
@@ -304,7 +296,6 @@ function downloadPDF() {
     doc.text("No transactions recorded.", 25, y);
   } else {
     expenses.forEach((exp, index) => {
-      // If we run out of page space, this pushes text to a new line
       if (y > 270) { 
         doc.addPage();
         y = 20;
@@ -314,7 +305,6 @@ function downloadPDF() {
       y += 8;
     });
   }
-  // 4. Footer line
   doc.line(20, 280, 190, 280);
   doc.setFontSize(10);
   doc.text("Generated by Cash Flow Tracker", 105, 285, { align: "center" });
@@ -322,52 +312,32 @@ function downloadPDF() {
   doc.save("CashFlow_Report.pdf");
 }
 
-
-
-
-
-//Currency exchange rate
-const exchangeRates = {
-  "INR": 1,
-  "USD": 0.012,
-  "EUR": 0.011
-};
+//Currency exchange logic
 async function changeCurrency() {
   const selected = document.getElementById("currencySelect").value;
   currentCurrency = selected;
 
   try {
     const response = await fetch("https://open.er-api.com/v6/latest/INR");
-    
     if (!response.ok) throw new Error("Network response was not ok");
-    
     const data = await response.json();
-    
-    // Update our rates object with real-time data from the API
     exchangeRate = data.rates[selected];
     console.log(`Live rate updated: 1 INR = ${exchangeRate} ${selected}`);
-    
   } catch (error) {
-    // If CORS error occurs or API is down, use your hardcoded logic as a fallback
     console.error("CORS or API Error. Using manual fallback rates.", error);
-    
     if (selected === "INR") exchangeRate = 1;
     else if (selected === "USD") exchangeRate = 0.012;
     else if (selected === "EUR") exchangeRate = 0.011;
   }
-
   updateUIAfterCurrencyChange();
 }
-
-
 
 function convert(amount) {
   return (amount * exchangeRate).toFixed(2);
 }
 
 function updateUIAfterCurrencyChange() {
-  document.getElementById("salaryDisplay").innerText =
-    `${currentCurrency} ${convert(salary)}`;
+  document.getElementById("salaryDisplay").innerText = `${currentCurrency} ${convert(salary)}`;
   renderExpenses();
   updateSummary();
   renderChart();
