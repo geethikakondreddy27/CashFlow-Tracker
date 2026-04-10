@@ -195,6 +195,8 @@ function renderChart() {
       plugins: {
         legend: { position: "top" },
         tooltip: {
+          enabled: true, // Ensuring this is explicitly on
+          displayColors: true,
           callbacks: {
             label: function(context) {
               return ` ${currentCurrency} ${context.raw}`;
