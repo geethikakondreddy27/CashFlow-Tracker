@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses Tracking</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Cash flow tracker</h1>
+    <p style="text-align:center; color: #393333;">
+      ... Track. Understand. Control your money...
+    </p>
+    <div class="dashboard"> 
+     
+    <!--Salary section-->
+    <section class="input-card">
+    <h2>Salary</h2>
+    <input type="number" id="salaryInput" placeholder="Enter salary ">
+    <button class="ripple" onclick="handleSetSalary()">Set salary</button>
+    <select  id="currencySelect" onchange="changeCurrency()"> 
+        <option value="INR">INR</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+    </select>
+</section>
+    
+
+    <!--Expenses section-->
+    <section class="input-card">
+    <h2>Add Expenses</h2>
+    <input type="text" id="expensename" placeholder="Expense name">
+    <input type="number" id="expenseamount" placeholder="Amount">
+    <button class="ripple" onclick="handleAddExpense()">Add Expense</button>
+    <!--<ul id="expenseList"></ul>-->
+    </section>
+    
+    <section class="list-card">
+      <h2>Recent Transactions</h2>
+      <div class="scroll-container">
+        <ul id="expenseList"></ul>
+      </div>
+    </section>
+
+    <!--Summary section-->
+    <section class="summary-section">
+  <h2>Financial Summary </h2>
+
+  <div class="summary-cards">
+    <div class="card salary-card">
+      <h3>Salary</h3>
+      <p id="salaryDisplay">0</p>
+    </div>
+
+    <div class="card expense-card">
+      <h3>Total Expenses</h3>
+      <p id="totalExpenses">0</p>
+    </div>
+
+    <div class="card balance-card">
+      <h3>Balance</h3>
+      <p id="balance">0</p>
+    </div>
+  
+
+  <div class="action-bar">
+    <button  class="download-btn ripple" onclick="downloadPDF()">Download Full Report</button>
+  </div>
+ </section>
+
+<!--visualization section-->
+
+  <section class="viz-card">
+    <h2>Visualization</h2>
+    <div class="charts-grid">
+      <canvas id="myChart"></canvas>
+      <canvas id="BarChart"></canvas>
+    </div>
+  </section>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

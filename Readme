@@ -1,0 +1,56 @@
+# 💰 Cash Flow Tracker
+
+A professional personal finance dashboard designed to help users monitor their income and expenditures with real-time analytics and reporting.
+
+---
+
+## 🚀 Features
+
+- Add Salary
+- Add Expenses
+- Automatic Balance Calculation
+- Input Validation and user alerts 
+
+### Level 2
+- Data stored using LocalStorage (persists after refresh)
+- Delete expenses
+- Pie Chart visualization (Chart.js)
+- Bar Chart visualization
+
+### Level 3
+- Download report as PDF (jsPDF)
+- Currency Converter (INR, USD, EUR)
+- Budget Alert when balance drops below 10%
+
+---
+
+## 🛠️ Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- Chart.js
+- jsPDF
+
+---
+
+## ▶️ How to Run
+
+1. Open the project folder
+2. Open `index.html` in your browser
+
+---
+
+## 📌 Notes
+
+- Data is stored in browser (LocalStorage)
+- Works on both desktop and mobile
+
+
+---
+## Live Demo
+
+
+## 👩‍💻 Author
+
+Kondreddy Geethika 

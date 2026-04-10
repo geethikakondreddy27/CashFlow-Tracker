@@ -1,0 +1,261 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 { text-align: center; color: #2d3436; margin-bottom: 30px; }
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* Full width for major sections */
+.list-card, .summary-section, .viz-card {
+    grid-column: span 2;
+}
+
+section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.25s ease;
+}
+
+
+
+/* --- SCROLLING LIST FIX --- */
+.scroll-container {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 5px;
+    scroll-behavior: smooth;
+}
+
+#expenseList {
+    list-style: none;
+    padding: 0;
+}
+
+#expenseList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #4361ee;
+    animation: fadeSlide 0.3s ease;
+}
+
+#expenseList li span {
+    flex: 1;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.delete-btn {
+    background-color: #4d65ff ;
+    padding: 6px 15px ;
+    font-size: 12px ;
+    margin-left: 10px;
+}
+
+
+
+/* --- SUMMARY CARDS (THE COLORS) --- */
+.summary-cards {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+
+
+
+.salary-card { background: #2ecc71; }
+.expense-card { background: #e74c3c; }
+.balance-card { background: #3498db; }
+
+/* --- BUTTONS & INPUTS --- */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4361ee;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+
+    
+}
+
+
+
+.action-bar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.download-btn {
+    width: auto;
+    padding: 12px 40px;
+    background-color: #2d3436;
+}
+
+/* --- CHART LAYOUT --- */
+.charts-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+canvas {
+    max-width: 350px ;
+     transition: transform 0.3s ease;
+}
+
+
+
+.charts-grid canvas {
+    height: 300px !important;
+}
+
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.ripple:active::after {
+    width: 200px;
+    height: 200px;
+}
+/*For mobile or any device*/
+@media (hover: none) {
+
+    button:active {
+        transform: scale(0.95);
+        box-shadow: 0 4px 10px rgba(67, 97, 238, 0.4);
+    }
+
+    .card:active {
+        transform: scale(0.97);
+    }
+
+    section:active {
+        transform: scale(0.98);
+    }
+
+    .delete-btn:active {
+        background-color: #0a22d8;
+    }
+
+    canvas:active {
+        transform: scale(1.02);
+    }
+}
+
+/* Desktop-only hover effects */
+@media (hover: hover) {
+
+    section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        filter: brightness(1.05);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(67, 97, 238, 0.4);
+    }
+
+    .delete-btn:hover {
+        background-color: #0a22d8;
+        box-shadow: 0 4px 10px rgba(81, 105, 212, 0.4);
+    }
+
+    canvas:hover {
+        transform: scale(1.03);
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .list-card, .summary-section, .viz-card {
+        grid-column: span 1;
+    }
+
+    .summary-cards {
+        flex-direction: column;
+    }
+
+    .charts-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    canvas {
+        max-width: 100% !important;
+    }
+}
