@@ -32,7 +32,7 @@ HTML • CSS • JavaScript • Chart.js • jsPDF
 ---
 
 ## 🌐 Live Demo
-*(Will be added after deployment)*  
+ Vercel Link : https://cash-flow-tracker-iota.vercel.app/  
 
 ---
 ## Screenshots 
