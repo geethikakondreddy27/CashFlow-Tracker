@@ -187,6 +187,11 @@ function renderChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction:{
+        mode : 'nearest',
+        intersect: true,
+        axis:'xy'
+      },
       plugins: {
         legend: { position: "top" },
         tooltip: {
@@ -229,6 +234,10 @@ function renderBarChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction :{
+        mode:'index',
+        intersect : false,
+      },
       plugins: {
         legend: { position: "top" },
         tooltip: {
